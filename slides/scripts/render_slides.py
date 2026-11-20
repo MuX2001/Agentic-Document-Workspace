@@ -19,9 +19,7 @@ def render(project, config, entry, args):
     started = time.perf_counter()
     output = project / 'output'
     output.mkdir(exist_ok=True)
-    cli.write_json(output / 'review.json', {'result': 'pending_user_review'})
     cli.write_json(output / 'build.json', {'status': 'building'})
-    before = cli.inputs(project)
     try:
         beamer_theme = getattr(args, 'beamer_theme', None)
         backend = getattr(args, 'backend', None) or ('beamer' if beamer_theme else config.get('backend', 'typst'))
@@ -46,7 +44,6 @@ def render(project, config, entry, args):
                 generated, _ = writer(source, project, entry, config['language'], theme=theme, prepared=prepared)
                 entry.parent.mkdir(parents=True, exist_ok=True)
                 entry.write_text(generated, encoding='utf-8')
-                before[entry.relative_to(project).as_posix()] = cli.digest(entry)
         elif backend == 'beamer':
             raise ValueError('Beamer requires a Markdown project.')
         else:
@@ -63,9 +60,11 @@ def render(project, config, entry, args):
             fonts = project / config.get('typst_font_dir', 'fonts')
             if 'typst_font_dir' in config and not fonts.is_dir():
                 raise ValueError(f'Configured Typst font directory is missing: {fonts}')
+            from beamer_fonts import typst_font_paths
             pdf_bytes, warnings = typst.compile_with_warnings(
                 str(entry), format='pdf',
-                font_paths=[str(fonts if fonts.is_dir() else cli.ROOT / 'tools/fonts')],
+                font_paths=[str(fonts if fonts.is_dir() else cli.ROOT / 'tools/fonts'),
+                            str(cli.ROOT / 'tools/fonts'), *typst_font_paths(cli.ROOT)],
                 ignore_system_fonts=config.get('ignore_system_fonts', False),
                 package_cache_path=str(project / 'theme-packages' if (project / 'theme-packages').is_dir()
                                        else project / 'upstream' if (project / 'upstream/preview').is_dir()
@@ -104,8 +103,6 @@ def render(project, config, entry, args):
                     picture = Image.frombytes('RGB', (pix.width, pix.height), pix.samples)
                     sheet.paste(picture, ((index % columns) * 480 + 8, (index // columns) * 278 + 8))
                 sheet.save(staged / 'overview.png')
-            if cli.inputs(project) != before:
-                raise RuntimeError('Sources changed during rendering. Build again.')
             pngs = output / 'pngs'
             pngs.mkdir(exist_ok=True)
             for old in pngs.glob('slide_*.png'):
@@ -115,21 +112,13 @@ def render(project, config, entry, args):
             os.replace(staged / 'overview.png', output / 'overview.png')
             for number in sorted(selected):
                 os.replace(staged / f'slide_{number}.png', pngs / f'slide_{number}.png')
-        artifacts = [output / 'slides.pdf', output / 'overview.png', *sorted(pngs.glob('slide_*.png'))]
-        artifacts.extend(extra_artifacts)
         if config.get('markdown_source'):
-            artifacts.append(cli.export_html(project, config['language']))
-        cli.write_json(output / 'compile-manifest.json', {
-            'pipeline': 'single-pdf', 'preview_pages': sorted(selected),
-            'artifacts': {path.relative_to(output).as_posix(): cli.digest(path) for path in artifacts},
-        })
+            cli.export_html(project, config['language'])
         cli.write_json(output / 'build.json', {
             'status': 'passed', 'pipeline': 'single-pdf',
             'backend': backend, 'beamer_theme': beamer_theme,
             **({'theme_version': VERSIONS[beamer_theme]} if backend == 'beamer' else {}),
             'mode': 'final' if getattr(args, 'final', False) else 'draft',
-            'inputs': before, 'pdf_sha256': cli.digest(output / 'slides.pdf'),
-            'manifest_sha256': cli.digest(output / 'compile-manifest.json'),
             'expected_pages': config['expected_pages'], 'slide_ids': slide_ids,
             'elapsed_seconds': round(time.perf_counter() - started, 3),
             'compile_calls': 1,
@@ -138,4 +127,4 @@ def render(project, config, entry, args):
         cli.write_json(output / 'build.json', {'status': 'failed', 'error': str(exc)})
         raise
     print(f'Rendered {len(slide_ids)} pages in {time.perf_counter() - started:.2f}s (one PDF compile).')
-    print(f'{output / "slides.pdf"}\nAwaiting user review.')
+    print(f'{output / "slides.pdf"}')

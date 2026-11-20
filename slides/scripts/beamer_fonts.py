@@ -11,7 +11,6 @@ from fontTools.ttLib import TTFont
 from fontTools.varLib.instancer import instantiateVariableFont
 
 HAN_URL = 'https://raw.githubusercontent.com/adobe-fonts/source-han-sans/release/SubsetOTF/CN/'
-FIRA_URL = 'https://raw.githubusercontent.com/google/fonts/main/ofl/firacode/FiraCode%5Bwght%5D.ttf'
 
 
 def installed_files():
@@ -68,10 +67,15 @@ def resolve_fonts(root):
         names += [f'SourceHanSans{region}-VF.{ext}' for region in ('CN', 'SC') for ext in ('ttf', 'otf')]
         path = next((installed[n.lower()] for n in names if n.lower() in installed), None)
         faces[style] = face(path or fetch(cache, name, HAN_URL + name), weight, cache)
-    mono = next((installed[n] for n in ('firacode-regular.ttf', 'firacode-regular.otf',
-                                        'firacode-variablefont_wght.ttf', 'firacode[wght].ttf') if n in installed), None)
-    if mono is None:
-        shared = root / 'tools/fonts/firacode/FiraCode[wght].ttf'
-        mono = shared if shared.is_file() else fetch(cache, 'FiraCode-VF.ttf', FIRA_URL)
-    faces['Mono'] = face(mono, 400, cache)
     return faces
+
+
+def typst_font_paths(root):
+    """Expose only the resolved CJK faces, including when system fonts are disabled."""
+    cache = root / '.cache/typst-fonts'
+    cache.mkdir(parents=True, exist_ok=True)
+    for role, source in resolve_fonts(root).items():
+        target = cache / (role + source.suffix)
+        if not target.exists() or source.stat().st_size != target.stat().st_size or source.stat().st_mtime_ns != target.stat().st_mtime_ns:
+            shutil.copy2(source, target)
+    return [str(cache)]

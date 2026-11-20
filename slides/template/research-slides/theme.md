@@ -9,7 +9,7 @@ A 使用 touying-quarto-clean 0.2.1 的完整原版 clean-theme；B 使用 Touyi
 | A | Roboto 轻字重、蓝色强调、原版标题及页码，代码使用 Fira Code |
 | B | Fira Sans、深色标题栏、橙色强调、原版页码和进度条 |
 
-中文使用 Microsoft YaHei 回退，数学使用 Typst 的 New Computer Modern。保留原版默认字号、留白及主题组件。不要再统一套用 Simple 主题或去掉主题固有设计。
+中文使用 思源黑体 回退，数学使用 Typst 的 New Computer Modern。保留原版默认字号、留白及主题组件。不要再统一套用 Simple 主题或去掉主题固有设计。
 
 ## 三个独立阶段
 

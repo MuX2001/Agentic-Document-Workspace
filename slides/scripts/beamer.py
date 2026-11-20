@@ -198,7 +198,7 @@ def write_tex(project, source, slides, theme, directory):
     preamble = [
         r'\documentclass[aspectratio=169,fontset=none]{ctexbeamer}',
         r'\usepackage{unicode-math}',
-        r'\usetheme[noalegre]{Arguelles}' if theme == 'arguelles' else r'\usetheme{moloch}',
+        r'\usetheme{Arguelles}' if theme == 'arguelles' else r'\usetheme{moloch}',
         r'\usepackage{tabularx,booktabs,colortbl}',
         r'\definecolor{scorefill}{HTML}{107895}',
         r'\input{fonts.tex}',

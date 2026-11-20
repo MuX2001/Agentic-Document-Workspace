@@ -1,6 +1,6 @@
 ---
 name: research-slides
-description: Create research-slide projects, prepare self-contained Markdown content, or render slides for user review in the NebulisLab Meeting workspace. Execute the requested stage independently.
+description: Create research-slide projects, prepare self-contained Markdown content, or render slides in the NebulisLab Meeting workspace. Execute the requested stage independently.
 ---
 
 # Research slides
@@ -54,7 +54,7 @@ slide-style.md. Run `slides.cmd build PROJECT` for the initial preview.
 The compiler displays Present and Optional only. Store visual overrides in
 layout.json by stable slide ID. main.typ is generated for Markdown projects.
 
-Inspect the first rendered deck and send it for user review. For local
+Inspect the rendered pages for visual defects and deliver the result. For local
 feedback, adjust the relevant layout or content and run
 `slides.cmd build PROJECT --pages 2,3`. PDF and overview cover the whole deck.
 Inspect affected pages and warnings. Global typography, template or sequence
@@ -65,11 +65,10 @@ while retaining the original content. Concise wording and necessary slide splits
 belong in slides.md. Preserve data, conditions, caveats and scientific meaning.
 Report material content reductions. Refer changes in scientific claims to the user.
 
-Run `slides.cmd build PROJECT --final` when final export is requested.
-Inspect every final page. Only explicit user approval authorizes
-`slides.cmd review PROJECT --pages all --reviewer Mu --approve`.
-Agent inspection can be recorded without --approve and does not imply user
-approval. Each build invalidates the earlier approval.
+Use `--final` only for 144 ppi previews. Review is limited to build errors/warnings
+and looking at rendered pages for clipping, overlap, typography and image layout.
+Inspect changed pages; broaden to the deck when a global change affects it.
+Do not create approval records, hash audits, or repeat inspection of unchanged pages.
 
 ## Implementation
 
@@ -78,9 +77,9 @@ layout.json. Native Typst projects keep main.typ. Markdown decks without
 content_format keep their existing parser. Migrate their content only when
 requested, preserving sources.
 
-The local single-PDF rendering path supports fast iteration. check and review
-verify current source and artifact hashes without compiling. Mechanical success
-does not establish visual quality or scientific validity.
+The local renderer compiles once and reports errors. Chinese uses Source Han Sans;
+keep each theme's original Latin fonts, including in Beamer. Environment diagnostics
+and regression tests are for setup or workflow maintenance, not routine slide work.
 
 Preserve original figures, videos and the pinned upstream SeaSlides submodule.
 Commands and the three-stage workflow are documented in the workspace README.md.

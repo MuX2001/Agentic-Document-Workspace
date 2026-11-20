@@ -3,7 +3,7 @@
 #let native = themes.metropolis
 #let accent = rgb("eb811b")
 #let native-theme(lang: "zh", body) = {
-  set text(font: ("Fira Sans", "Microsoft YaHei"), weight: "light", lang: lang)
+  set text(font: ("Fira Sans", "Source Han Sans"), weight: "light", lang: lang)
   set strong(delta: 100)
   show: native.metropolis-theme.with(aspect-ratio: "16-9")
   body

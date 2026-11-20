@@ -55,7 +55,7 @@ PRIVATE_PURPOSE
 Delta_T (t, tau) = L_0 (t, tau) - L_T (t, tau)
 ```
 
-Hold observation and action target fixed.
+Hold observation and action target fixed. 中文思源测试。
 
 ### Context
 PRIVATE_CONTEXT
@@ -112,24 +112,18 @@ OPTIONAL_VISIBLE
             assert len(pdf) == 4
             assert 'PRIVATE_' not in text and 'OPTIONAL_HIDDEN' not in text
             assert 'OPTIONAL_VISIBLE' in text and 'Fixed task' in text
+            fonts = {font[3] for page in pdf for font in page.get_fonts()}
+            assert any('SourceHanSans' in name for name in fonts), fonts
+            assert any(('Roboto' if preset == 'quarto-clean' else 'FiraSans') in name for name in fonts), fonts
         assert 'OPTIONAL_HIDDEN' in (project / 'slides.md').read_text()
-        with patch('typst.compile_with_warnings', side_effect=AssertionError('Unexpected compile')):
-            cli.check(argparse.Namespace(project=str(project)))
-            expect_failure(lambda: cli.review(argparse.Namespace(
-                project=str(project), pages='1', reviewer='test', notes='', approve=False)))
         # Save final fixture output for the agent's visual inspection.
         qa = ROOT / '.cache/pipeline-tests' / name
         shutil.copytree(project, qa)
         # Local previews must be current and accurately enumerated.
         cli.build(argparse.Namespace(project=str(project), final=False, pages='3'))
         assert [path.name for path in (project / 'output/pngs').glob('*.png')] == ['slide_3.png']
-        assert json.loads((project / 'output/review.json').read_text())['result'] == 'pending_user_review'
-        # Source edits and artifact corruption must invalidate verification.
-        (project / 'slides.md').write_text(content + '\nExtra content\n', encoding='utf-8')
-        expect_failure(lambda: cli.check(argparse.Namespace(project=str(project))))
-        (project / 'slides.md').write_text(content, encoding='utf-8')
-        (project / 'output/slides.html').write_text('damaged')
-        expect_failure(lambda: cli.check(argparse.Namespace(project=str(project))))
+        assert not (project / 'output/review.json').exists()
+        assert not (project / 'output/compile-manifest.json').exists()
         # Duplicate IDs and missing selected assets must fail before publishing.
         (project / 'slides.md').write_text(content.replace('S02 ·', 'S01 ·'), encoding='utf-8')
         expect_failure(lambda: read_slides(project / 'slides.md'))
@@ -170,7 +164,7 @@ OPTIONAL_VISIBLE
         assert not json.loads((project / 'output/quality.json').read_text())['warnings']
         native_qa = qa.with_name(qa.name + '-native')
         shutil.copytree(project, native_qa)
-        print('PASS: no-render creation, hidden context, optional selection, stable IDs, one compile, targeted previews, stale outputs, heading-based Markdown and Typst.')
+        print('PASS: no-render creation, hidden context, optional selection, stable IDs, one compile, targeted previews, heading-based Markdown and Typst.')
         print(f'Visual fixture: {qa}')
         print(f'Native theme fixture: {native_qa}')
     finally:

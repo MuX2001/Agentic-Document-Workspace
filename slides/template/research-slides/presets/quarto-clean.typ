@@ -6,9 +6,9 @@
 #let native-theme(lang: "zh", body) = {
   set text(lang: lang)
   show: upstream.clean-theme.with(
-    font-family-heading: ("Roboto", "Microsoft YaHei"),
-    font-family-body: ("Roboto", "Microsoft YaHei"),
-    font-family-mono: ("Fira Code", "Microsoft YaHei"),
+    font-family-heading: ("Roboto", "Source Han Sans"),
+    font-family-body: ("Roboto", "Source Han Sans"),
+    font-family-mono: ("Fira Code", "Source Han Sans"),
   )
   body
 }

@@ -24,8 +24,9 @@ For research slides in this workspace, read `slide-style.md` and
 - New project and Content Preparation requests end with Markdown. Do not run
   rendering, doctor, preview, or checks during those two stages.
 - Render only on an explicit rendering request or visual feedback. Inspect the
-  first draft, affected pages after local changes, and all pages for final export.
-  User approval is separate from agent inspection and mechanical success.
+  first draft and affected pages after changes; inspect the whole deck after global changes.
+  Review means compiler errors/warnings and visual inspection only. Do not add
+  approval records, hash audits, or repeated reviews of unchanged pages.
 - SeaSlides is an optional pinned submodule at `vendor/seaslides/`. Its skill is
   `vendor/seaslides/skills/seaslides-typst-slides-skill/SKILL.md`.
   Do not mutate the upstream SeaSlides implementation. Keep workspace-specific

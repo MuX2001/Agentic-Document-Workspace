@@ -4,7 +4,7 @@
 
 ## 工作流
 
-- `slides/`：研究报告幻灯片。用 Markdown 撰写内容，可渲染为 Typst（A：Quarto Clean，B：Metropolis）或 XeLaTeX Beamer（Moloch、Argüelles），输出 PDF、PNG 与 HTML，并附带检查、人工审核和局部迭代流程。
+- `slides/`：研究报告幻灯片。用 Markdown 撰写内容，可渲染为 Typst（A：Quarto Clean，B：Metropolis）或 XeLaTeX Beamer（Moloch、Argüelles），输出 PDF、PNG 与 HTML，支持编译报错处理、视觉检查和局部迭代。
 - `drawing/`：示意图。支持 draw.io 与 Excalidraw，交付可编辑的原生源文件及导出的 SVG、PNG。
 - `documents/`：预留的文档项目目录，工作流尚未实现。
 

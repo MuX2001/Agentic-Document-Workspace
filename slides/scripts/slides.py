@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import argparse
 from base64 import b64encode
-from datetime import datetime, timezone
 import hashlib
 from html import escape
 from importlib import metadata
@@ -31,13 +30,6 @@ def digest(path: Path) -> str:
 def write_json(path: Path, payload):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
-
-
-def inputs(project: Path) -> dict:
-    return {p.relative_to(project).as_posix(): digest(p)
-            for p in sorted(project.rglob('*'))
-            if p.is_file() and 'output' not in p.relative_to(project).parts
-            and '__pycache__' not in p.relative_to(project).parts}
 
 
 def project_info(value: str):
@@ -72,8 +64,9 @@ def doctor(_args):
     if not errors:
         import typst
         # Compile in memory to test both required system fonts and native math.
-        probe = b'#set text(font: ("Arial", "Microsoft YaHei"))\n$ x^2 $'
-        _pdf, warnings = typst.compile_with_warnings(probe)
+        from beamer_fonts import typst_font_paths
+        probe = '#set text(font: ("Roboto", "Source Han Sans"))\n中文 English $ x^2 $'.encode("utf-8")
+        _pdf, warnings = typst.compile_with_warnings(probe, font_paths=[str(ROOT / "tools/fonts"), *typst_font_paths(ROOT)])
         errors.extend(str(w) for w in warnings)
     for package, version in (('touying', '0.7.4'), ('uniwarn', '0.1.1'), ('touying-quarto-clean', '0.2.1')):
         if not (TEMPLATE / f'upstream/preview/{package}/{version}/typst.toml').is_file():
@@ -221,47 +214,6 @@ def export_html(project, language):
     return destination
 
 
-def check(args):
-    project, config, entry = project_info(args.project)
-    record = json.loads((project / 'output/build.json').read_text(encoding='utf-8'))
-    if record.get('status') != 'passed' or record.get('inputs') != inputs(project):
-        raise RuntimeError('No successful build for current sources. Run build first.')
-    if record.get('pdf_sha256') != digest(project / 'output/slides.pdf'):
-        raise RuntimeError('The PDF differs from the recorded build. Rebuild before review.')
-    if record.get('pipeline') != 'single-pdf':
-        raise RuntimeError('Run build to generate a current render manifest.')
-    manifest_path = project / 'output/compile-manifest.json'
-    if digest(manifest_path) != record['manifest_sha256']:
-        raise RuntimeError('The render manifest has changed. Build again.')
-    manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
-    for name, expected_digest in manifest['artifacts'].items():
-        path = (project / 'output' / name).resolve()
-        if not path.is_relative_to(project / 'output') or digest(path) != expected_digest:
-            raise RuntimeError(f'Rendered artifact changed: {name}')
-    config['expected_pages'] = record['expected_pages']
-    errors = inspect_pdf(project, config['expected_pages'])
-    if errors:
-        raise RuntimeError('\n'.join(errors))
-    print('Source, artifact, and PDF checks passed (no compilation).')
-    return project, config
-
-
-def review(args):
-    project, config = check(args)
-    pages = list(range(1, config['expected_pages'] + 1)) if args.pages == 'all' else sorted({int(p) for p in args.pages.split(',')})
-    if pages != list(range(1, config['expected_pages'] + 1)):
-        raise ValueError('Record every page number after viewing all current PNGs.')
-    # This command records a human/agent attestation; it does not perform visual QA.
-    write_json(project / 'output/review.json', {
-        'scope': 'full', 'result': 'user_approved' if args.approve else 'inspected',
-        'reviewer': args.reviewer, 'pages': pages,
-        'notes': args.notes, 'pdf_sha256': digest(project / 'output/slides.pdf'),
-        'compile_manifest_sha256': digest(project / 'output/compile-manifest.json'),
-        'reviewed_at': datetime.now(timezone.utc).isoformat(),
-    })
-    print('Recorded user approval for this build.' if args.approve else 'Recorded visual inspection for this build.')
-
-
 def copy_asset(source: Path, destination: Path):
     destination.parent.mkdir(parents=True, exist_ok=True)
     if destination.exists():
@@ -322,22 +274,13 @@ def main():
     p.add_argument('--template', type=preset_name, choices=PRESETS,
                    help='Preset name or A/B (ask in a terminal, A in scripts)')
     p.set_defaults(action=new)
-    for name, action in (('build', build), ('check', check)):
-        p = sub.add_parser(name)
-        p.add_argument('project')
-        if name == 'build':
-            p.add_argument('--backend', choices=('typst', 'beamer'))
-            p.add_argument('--beamer-theme', choices=('moloch', 'arguelles'))
-            p.add_argument('--final', action='store_true', help='Check the full deck and export all high-resolution previews')
-            p.add_argument('--pages', help='Preview only these pages, e.g. 2,3; PDF and overview always cover the deck')
-        p.set_defaults(action=action)
-    p = sub.add_parser('review', help='Record completed visual inspection, not an automated review')
+    p = sub.add_parser('build')
     p.add_argument('project')
-    p.add_argument('--pages', required=True, help='Inspected pages, e.g. 1,2,3')
-    p.add_argument('--reviewer', required=True)
-    p.add_argument('--notes', default='')
-    p.add_argument('--approve', action='store_true', help='Record explicit user approval of this version')
-    p.set_defaults(action=review)
+    p.add_argument('--backend', choices=('typst', 'beamer'))
+    p.add_argument('--beamer-theme', choices=('moloch', 'arguelles'))
+    p.add_argument('--final', action='store_true', help='Export all previews at 144 ppi')
+    p.add_argument('--pages', help='Preview only these pages, e.g. 2,3; PDF and overview cover the deck')
+    p.set_defaults(action=build)
     p = sub.add_parser('import-asset')
     p.add_argument('project')
     p.add_argument('source')

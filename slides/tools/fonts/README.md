@@ -8,4 +8,4 @@ https://github.com/google/fonts/tree/main/ofl/firasans
 https://github.com/google/fonts/tree/main/ofl/firacode
 
 Projects copy only the selected theme's font families. Chinese glyphs use the
-installed Microsoft YaHei fallback. Math uses Typst's New Computer Modern.
+Source Han Sans resolved locally or downloaded into the workspace cache. Math uses Typst's New Computer Modern.
