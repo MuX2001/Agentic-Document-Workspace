@@ -1,0 +1,7 @@
+{
+  "profile": "research-slides-v1",
+  "entry": "main.typ",
+  "expected_pages": 5,
+  "language": "zh",
+  "purpose": "layout-gallery"
+}

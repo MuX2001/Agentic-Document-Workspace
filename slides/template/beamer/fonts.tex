@@ -1,0 +1,20 @@
+% Scale the 1119 roles from its 841.89 bp page width to the Beamer page.
+\defaultfontfeatures[@RegularFile@]{Path={@RegularDir@},BoldFont={@BoldFile@},BoldFeatures={Path={@BoldDir@}}}
+\setmainfont{@RegularFile@}
+\setsansfont{@RegularFile@}
+\setmonofont{@MonoFile@}[Path={@MonoDir@}]
+\setCJKmainfont{@RegularFile@}
+\setCJKsansfont{@RegularFile@}
+\setCJKmonofont{@RegularFile@}
+\newfontfamily\slideMediumLatin{@MediumFile@}[Path={@MediumDir@}]
+\newCJKfontfamily\slideMediumCJK{@MediumFile@}[Path={@MediumDir@}]
+\newcommand{\slideMedium}{\slideMediumLatin\slideMediumCJK}
+\newcommand{\slideSize}[2]{\fontsize{\dimexpr\paperwidth*#1/842\relax}{\dimexpr\paperwidth*#2/842\relax}\selectfont}
+\setbeamerfont{normal text}{family=\sffamily,series=\mdseries,size={\slideSize{18}{25}}}
+\setbeamerfont{frametitle}{family=\slideMedium,series={},size={\slideSize{28}{34}}}
+\setbeamerfont{frame title}{parent=frametitle,family=\slideMedium,series={},size={\slideSize{28}{34}}}
+\setbeamerfont{title}{family=\slideMedium,series={},size={\slideSize{28}{34}}}
+\setbeamerfont{subtitle}{family=\slideMedium,series={},size={\slideSize{20}{26}}}
+\setbeamerfont{section title}{family=\slideMedium,series={},size={\slideSize{40}{46}}}
+\AtBeginDocument{\usebeamerfont{normal text}}
+\setmathfont{NewCMMath-Regular.otf}

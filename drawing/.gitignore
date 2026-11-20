@@ -1,0 +1,11 @@
+# Each machine installs dependencies with npm ci.
+node_modules/
+renderer/.vite/
+
+# Local projects, including source material, exports and versions.
+/diagrams/
+
+# Temporary export staging and browser test output.
+.drawio-export-*/
+/test-results/
+/playwright-report/

@@ -1,0 +1,16 @@
+<!doctype html>
+<meta charset="utf-8">
+<style>body{margin:0;background:white}svg{display:block}</style>
+<div id="drawing"></div>
+<script type="module">
+import {restore, exportToSvg} from '@excalidraw/excalidraw';
+window.renderScene = async scene => {
+  const {elements, appState, files} = restore(scene, null, null);
+  const svg = await exportToSvg({
+    elements, files, appState: {...appState, exportBackground:true, exportWithDarkMode:false}
+  });
+  document.querySelector('#drawing').replaceChildren(svg);
+  await document.fonts.ready;
+  return new XMLSerializer().serializeToString(svg);
+};
+</script>

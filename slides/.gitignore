@@ -1,0 +1,9 @@
+# Each machine installs dependencies with setup-slides.cmd.
+/.venv/
+/.cache/
+**/__pycache__/
+*.py[cod]
+
+# Local decks, source material, snapshots and generated previews.
+/projects/
+**/output/

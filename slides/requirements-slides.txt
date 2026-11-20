@@ -1,0 +1,10 @@
+# Slide toolchain. SeaSlides' optional PPTX, image-provider and narration
+# dependencies are intentionally not needed by this workspace.
+typst==0.15.2
+PyMuPDF==1.26.7
+Pillow==12.0.0
+PyYAML==6.0.3
+markdown-it-py==4.0.0
+mdurl==0.1.2
+pypandoc_binary==1.15
+fonttools==4.61.1

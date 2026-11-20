@@ -1,0 +1,15 @@
+{
+  "seaslides": {
+    "repository": "https://github.com/touying-typ/seaslides",
+    "commit": "dcde5bf6c6875b300e2999fc7766f369a13a67ac",
+    "path": ".agents/skills/seaslides-typst-slides-skill",
+    "mode": "quick",
+    "profile": "research-slides",
+    "optional_dependencies": "Not installed: PPTX, AI image providers, narration and non-PDF source converters."
+  },
+  "touying": "0.7.4",
+  "uniwarn": "0.1.1",
+  "touying-quarto-clean": "0.2.1",
+  "template": "research-slides-v1",
+  "python_requirements": "requirements-slides.txt"
+}

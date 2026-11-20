@@ -1,0 +1,52 @@
+{
+  "touying:0.7.4": {
+    "url": "https://packages.typst.org/preview/touying-0.7.4.tar.gz",
+    "archive_sha256": "7ab85405a6327533f530ac70206721032e364c9ca900fabc324952ae0c0b528b",
+    "files": {
+      "LICENSE": "ac2184665ae59b3934578df8225006d6e0b9c45e426d73c7c070e073358aaeac",
+      "README.md": "9dccb2e17774c2661543e38754a22b68955e414ec23aaabbab82ed6c65943fa1",
+      "changelog.md": "5d1db40bd32b09143978bf318b995080f6b216692ad69a96bd3bcd075a877042",
+      "lib.typ": "c372c4e5b4711795eeaaccd5dbd6b1abf1d2e19a80860c1ae0c51da6a8b97b81",
+      "src/components.typ": "ea62029b106dd30c424817f58bbda8484ea4de6c2bd3282c4e4186e9bdd63655",
+      "src/configs.typ": "dcda64a9d463cb5b19d350b5c3cc666548d4279148ba4949becc943971617e1c",
+      "src/core.typ": "520fb1a20004b57040a953e194703ef432542b28e05c201f4446311e519d0eb2",
+      "src/exports.typ": "f0caf10e72a449b4d485d4bcd230bdaf408a2f693fadd89aee834ffcb97882ae",
+      "src/extern.typ": "894324b876ed704205be941459213fac0dfdbc32ecce194a3714d9787c9daf62",
+      "src/magic.typ": "f074933897fcda9f7de311cde104caa0dcd8675ccbd4a380b3c09e51c45931bc",
+      "src/pdfpc.typ": "fa7da80ee2bec5db5681dbf1dcb468c3f23f9093c1d62fe268d7d3ac54efc6e4",
+      "src/slides.typ": "6b64e8b537c684dfc39cdc1f17f54e5858d7335074d4e5efecab5ceed105d9c3",
+      "src/utils.typ": "7c870a518c7f34a734749b70f883cf4c077cff1d12a3e58a564d1c69762c00ce",
+      "themes/aqua.typ": "69bf0cb612e4a260533134ffc2be162bbe4fd2d9ec3961dc4af8e146da4e3381",
+      "themes/default.typ": "f78a86abd92d1221c2cbe066bb7465cd0612d586535f67a01e7e1179fb38bb29",
+      "themes/dewdrop.typ": "8ea2544680677eb8f61a1dc3212c7791b51749ac5b5805f1b294f0bee5924862",
+      "themes/metropolis.typ": "b13603a5ded0e0fce57e5febb372ae431c9c4047ad2e684aeeea9fc37b8b1cd1",
+      "themes/simple.typ": "412f1cc7b858c35469d5881f8067f10242e76d84743aa119bd47af5f2071e66a",
+      "themes/stargazer.typ": "4f0bd936748bd9cd9a2af47a28004e3d5f49c983663c882f98cdfb6656527af2",
+      "themes/themes.typ": "460fbb80c1f85160751b9f4f0678f79a0a63fcc5790cd16d8bcac363475754e4",
+      "themes/university.typ": "1021fb731ac110b1b1ba8b20e8974caf1255f28831ada24983f417eb3e168f73",
+      "typst.toml": "9690d6553f1ff785c6958a2601fb967f089d5b9e014edba1913ce164e8984459"
+    }
+  },
+  "uniwarn:0.1.1": {
+    "url": "https://packages.typst.org/preview/uniwarn-0.1.1.tar.gz",
+    "archive_sha256": "68247432dab1b165c16055411c0f0ec154a63d7fcf5ef0f65906269695d368ea",
+    "files": {
+      "LICENSE": "3d152ee831bedc4b5aecf5124d2b1fc6117624a02232cea291a16c7877544142",
+      "README.md": "7a9be17fd7da3bba5fdbe0c214e41bf739a6d2c57fc2c7cfdf744a0dcd6eb5bf",
+      "internal.typ": "ad097c2837b21034aa88b345295b25605a33b172d651ba0fae230bacad152278",
+      "lib.typ": "649ab7f61b165b4f89fa83f8a9ba60c525e9e759e1aa758d9cb82ffa76c86fbd",
+      "typst.toml": "796288aa1ec14acf7131f0d59006542a8b12530b89afa8538e1f66faced75b68"
+    }
+  },
+  "touying-quarto-clean:0.2.1": {
+    "url": "https://packages.typst.org/preview/touying-quarto-clean-0.2.1.tar.gz",
+    "archive_sha256": "cdbea11e0b67cdaa9226b07a89f8b124073c654d1372d0fe698142cb72661f6f",
+    "files": {
+      "LICENSE": "d5c51d1f7b81af838a771f73cff654159233a08f70131f66d778ca9759a6230e",
+      "README.md": "ab5251bcad721e43c721e1bfab87f86801753b4bf9c497b6a57147e3ca16c759",
+      "lib.typ": "1327508084793297ba2bbd6c8312a5002bd9f9d65658ee0f10d294f4124413bd",
+      "template/main.typ": "1c8ef41f6fa09f3e12fb30c7c4d6d112616987023979ab7824973b8f56c672ad",
+      "typst.toml": "9602287c881911bc78a1cd270c02dee3618d177eb36f0fcb69bc642e4084aaf6"
+    }
+  }
+}
