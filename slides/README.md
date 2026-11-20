@@ -1,4 +1,4 @@
-# Research slides
+# Slide Workspace 幻灯片工作区
 
 工作区采用三个独立阶段。内容主文件为 `slides.md`。默认使用 Typst A（Quarto Clean），也可选 Typst B（Metropolis）或 XeLaTeX Beamer（Moloch、Argüelles）。
 
