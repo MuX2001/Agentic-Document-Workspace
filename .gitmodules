@@ -1,0 +1,3 @@
+[submodule "slides/vendor/seaslides"]
+	path = slides/vendor/seaslides
+	url = https://github.com/touying-typ/seaslides.git

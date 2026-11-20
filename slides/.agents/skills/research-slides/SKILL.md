@@ -13,8 +13,12 @@ gives visual feedback on a rendered deck. For an ambiguous request such as
 Read the project slides.md and deck.json when present. Read
 template/research-slides/content-format.md for the content contract.
 Read slide-style.md for scientific and language requirements. Its visual rules
-apply in stage 3. Consult the vendored SeaSlides skill only for specific Typst
-questions during stage 3.
+apply in stage 3. For specific Typst questions during stage 3, consult the optional
+SeaSlides reference at `vendor/seaslides/skills/seaslides-typst-slides-skill/SKILL.md`
+(relative to the slides workspace). If absent, initialize the pinned submodule
+using the workspace README instructions when needed. Routine new/build uses the
+local scripts and does not require SeaSlides. An explicit request to use the full
+SeaSlides workflow should read that upstream skill and follow the requested scope.
 
 ## 1. New slide project
 
@@ -78,5 +82,5 @@ The local single-PDF rendering path supports fast iteration. check and review
 verify current source and artifact hashes without compiling. Mechanical success
 does not establish visual quality or scientific validity.
 
-Preserve original figures, videos and vendored SeaSlides.
+Preserve original figures, videos and the pinned upstream SeaSlides submodule.
 Commands and the three-stage workflow are documented in the workspace README.md.

@@ -26,5 +26,7 @@ For research slides in this workspace, read `slide-style.md` and
 - Render only on an explicit rendering request or visual feedback. Inspect the
   first draft, affected pages after local changes, and all pages for final export.
   User approval is separate from agent inspection and mechanical success.
-- Do not mutate the vendored SeaSlides implementation. Keep workspace-specific
+- SeaSlides is an optional pinned submodule at `vendor/seaslides/`. Its skill is
+  `vendor/seaslides/skills/seaslides-typst-slides-skill/SKILL.md`.
+  Do not mutate the upstream SeaSlides implementation. Keep workspace-specific
   behavior in `scripts/`, the local template, and the research-slides skill.

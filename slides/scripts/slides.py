@@ -17,7 +17,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 TEMPLATE = ROOT / 'template' / 'research-slides'
-UPSTREAM = ROOT / '.agents' / 'skills' / 'seaslides-typst-slides-skill' / 'scripts'
+UPSTREAM = ROOT / 'vendor' / 'seaslides' / 'skills' / 'seaslides-typst-slides-skill' / 'scripts'
 PRESETS = {
     'quarto-clean': ('A', 'Quarto Clean | 组会、文献对比'),
     'metropolis': ('B', 'Metropolis | 标题层级更鲜明的科研汇报'),
@@ -64,9 +64,11 @@ def doctor(_args):
             print(f'{name}: {metadata.version(name)}')
         except metadata.PackageNotFoundError:
             errors.append(f'{name}: missing; run setup-slides.cmd')
-    for file in ('typst_compiler.py', 'typst_quality_checker.py', 'validate_project.py'):
-        if not (UPSTREAM / file).is_file():
-            errors.append(f'SeaSlides missing: {file}; see README installation instructions')
+    # SeaSlides is an optional reference; local new/build do not execute it.
+    if (UPSTREAM.parent / 'SKILL.md').is_file():
+        print('Optional SeaSlides reference: available')
+    else:
+        print('Optional SeaSlides reference: not downloaded (see README)')
     if not errors:
         import typst
         # Compile in memory to test both required system fonts and native math.
@@ -78,7 +80,7 @@ def doctor(_args):
             errors.append(f'{package} source snapshot missing in template/research-slides/upstream')
     if errors:
         raise RuntimeError('\n'.join(errors))
-    print('SeaSlides scripts and font probe: OK')
+    print('Local slide dependencies, theme snapshots and font probe: OK')
 
 
 def preset_name(value: str) -> str:

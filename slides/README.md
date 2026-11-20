@@ -141,3 +141,8 @@ Markdown 支持 research-slides-v2 栏目格式和按二级标题分页的格式
 安装与诊断只在环境需要时使用。依赖固定于 requirements-slides.txt，安装在 .venv。新项目自带 Touying 0.7.4、uniwarn 0.1.1，以及 A 所需的 Quarto Clean 0.2.1 源码快照。A 使用 Roboto / Fira Code，B 使用 Fira Sans；中文回退 Microsoft YaHei。新建与渲染均不需要下载主题或字体。
 
 本地单次编译实现位于 scripts/render_slides.py。行为规范在 [research-slides skill](.agents/skills/research-slides/SKILL.md) 与 [slide-style.md](slide-style.md)。
+
+
+## 可选上游 SeaSlides
+
+SeaSlides 以固定版本子模块保存在 `vendor/seaslides/`，入口为 `vendor/seaslides/skills/seaslides-typst-slides-skill/SKILL.md`。日常新建与渲染使用本地 scripts 和 template，无需下载此子模块；doctor 只报告这个可选参考是否存在。需要参考或明确使用完整上游技能时，在仓库顶层执行 `git submodule update --init --recursive -- slides/vendor/seaslides`。部署与版本同步详见 [顶层说明](../README.md#可选-seaslides-外部引用)。
